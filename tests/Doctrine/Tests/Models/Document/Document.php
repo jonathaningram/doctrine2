@@ -5,6 +5,9 @@ namespace Doctrine\Tests\Models\Document;
 /**
  * @Entity
  * @Table(name="document")
+ * @InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"document"="Document", "image_document"="ImageDocument"})
  */
 class Document
 {
@@ -32,7 +35,7 @@ class Document
     {
         return $this->id;
     }
-    
+
     public function setData(DocumentData $data)
     {
         $this->data = $data;

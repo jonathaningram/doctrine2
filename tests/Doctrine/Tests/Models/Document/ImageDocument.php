@@ -4,7 +4,6 @@ namespace Doctrine\Tests\Models\Document;
 
 /**
  * @Entity
- * @Table(name="image_document")
  */
 class ImageDocument extends Document
 {

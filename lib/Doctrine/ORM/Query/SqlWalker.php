@@ -560,10 +560,6 @@ class SqlWalker implements TreeWalker
                     }
                 }
 
-                if ($fieldName == 'url') {
-                    $x = 'x';
-                }
-
                 if ($fieldExistsInSubclass && null !== $subClass) {
                     $sql .= $subClass->getQuotedColumnName($fieldName, $this->_platform);
                 } else {

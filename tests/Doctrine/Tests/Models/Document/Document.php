@@ -21,8 +21,8 @@ class Document
     protected $dataClass = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="DocumentData", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
+     * @OneToOne(targetEntity="DocumentData", cascade={"persist", "remove"})
+     * @JoinColumn(nullable=true, onDelete="cascade")
      */
     protected $data = null;
 

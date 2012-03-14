@@ -1575,6 +1575,14 @@ class SelectSqlGenerationTest extends \Doctrine\Tests\OrmTestCase
     public function testJoiningOnInheritedAssociation()
     {
         $this->assertSqlGeneration(
+            "SELECT id, idd FROM Doctrine\Tests\Models\Document\ImageDocument id JOIN id.data idd WHERE idd INSTANCE OF Doctrine\Tests\Models\Document\ImageDocumentData AND id.version = 55 ",
+            "TBD"
+        );
+    }
+
+    public function testJoiningOnInheritedAssociationWithOrderByAssociationField()
+    {
+        $this->assertSqlGeneration(
             "SELECT id, idd FROM Doctrine\Tests\Models\Document\ImageDocument id JOIN id.data idd WHERE idd INSTANCE OF Doctrine\Tests\Models\Document\ImageDocumentData AND id.version = 55 ORDER BY idd.url DESC",
             "TBD"
         );

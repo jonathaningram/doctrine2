@@ -638,8 +638,20 @@ class Parser
                 $field = $pathExpression->field = $class->identifier[0];
             }
 
-            // Check if field or association exists
-            if ( ! isset($class->associationMappings[$field]) && ! isset($class->fieldMappings[$field])) {
+            $fieldExistsInSubclass = false;
+
+            foreach ($class->subClasses as $subClassName) {
+                $subClass = $this->_em->getClassMetadata($subClassName);
+
+                if (isset($subClass->associationMappings[$field]) || isset($subClass->fieldMappings[$field])) {
+                    $fieldExistsInSubclass = true;
+
+                    break;
+                }
+            }
+
+            // Check if field or association exists in class or subclass
+            if (!isset($class->associationMappings[$field]) && !isset($class->fieldMappings[$field]) && !$fieldExistsInSubclass) {
                 $this->semanticalError(
                     'Class ' . $class->name . ' has no field or association named ' . $field,
                     $deferredItem['token']

@@ -547,7 +547,29 @@ class SqlWalker implements TreeWalker
                     $sql .= $this->walkIdentificationVariable($dqlAlias, $fieldName) . '.';
                 }
 
-                $sql .= $class->getQuotedColumnName($fieldName, $this->_platform);
+                $fieldExistsInSubclass = false;
+                $subClass = null;
+
+                foreach ($class->subClasses as $subClassName) {
+                    $subClass = $this->_em->getClassMetadata($subClassName);
+
+                    if (isset($subClass->associationMappings[$fieldName]) || isset($subClass->fieldMappings[$fieldName])) {
+                        $fieldExistsInSubclass = true;
+
+                        break;
+                    }
+                }
+
+                if ($fieldName == 'url') {
+                    $x = 'x';
+                }
+
+                if ($fieldExistsInSubclass && null !== $subClass) {
+                    $sql .= $subClass->getQuotedColumnName($fieldName, $this->_platform);
+                } else {
+                    $sql .= $class->getQuotedColumnName($fieldName, $this->_platform);
+                }
+
                 break;
 
             case AST\PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION:
